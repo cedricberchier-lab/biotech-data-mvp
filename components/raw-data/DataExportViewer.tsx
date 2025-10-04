@@ -25,7 +25,7 @@ export default function DataExportViewer({ onSelectExport }: DataExportViewerPro
       id: 'dcs-001',
       system: 'DCS',
       filename: 'DeltaV_Historian_Export_2024-03-15_BR2001.csv',
-      exportDate: '2024-03-15T14:23:11Z',
+      exportDate: '2024-03-15 14:23:11',
       format: 'CSV',
       size: '45.2 MB',
       recordCount: 276480,
@@ -34,7 +34,7 @@ export default function DataExportViewer({ onSelectExport }: DataExportViewerPro
       id: 'ebr-001',
       system: 'eBR',
       filename: 'Syncade_BatchRecord_B-2024-0342.xml',
-      exportDate: '2024-03-19T09:15:42Z',
+      exportDate: '2024-03-19 09:15:42',
       format: 'XML',
       size: '2.8 MB',
       recordCount: 847,
@@ -43,7 +43,7 @@ export default function DataExportViewer({ onSelectExport }: DataExportViewerPro
       id: 'lims-001',
       system: 'LIMS',
       filename: 'LIMS_InProcess_Results_B-2024-0342.csv',
-      exportDate: '2024-03-20T16:47:23Z',
+      exportDate: '2024-03-20 16:47:23',
       format: 'CSV',
       size: '124 KB',
       recordCount: 42,
@@ -52,7 +52,7 @@ export default function DataExportViewer({ onSelectExport }: DataExportViewerPro
       id: 'lims-002',
       system: 'LIMS',
       filename: 'LIMS_Analytical_Results_B-2024-0342.csv',
-      exportDate: '2024-03-22T11:22:09Z',
+      exportDate: '2024-03-22 11:22:09',
       format: 'CSV',
       size: '18 KB',
       recordCount: 8,
@@ -61,7 +61,7 @@ export default function DataExportViewer({ onSelectExport }: DataExportViewerPro
       id: 'lims-003',
       system: 'LIMS',
       filename: 'LIMS_Microbiology_Results_B-2024-0342.csv',
-      exportDate: '2024-03-25T14:33:51Z',
+      exportDate: '2024-03-25 14:33:51',
       format: 'CSV',
       size: '12 KB',
       recordCount: 6,
@@ -147,7 +147,7 @@ export default function DataExportViewer({ onSelectExport }: DataExportViewerPro
                   {exp.filename}
                 </h3>
                 <div className="flex gap-4 text-xs text-gray-600">
-                  <span>Exported: {new Date(exp.exportDate).toLocaleString()}</span>
+                  <span>Exported: {exp.exportDate}</span>
                   <span>•</span>
                   <span>{exp.recordCount.toLocaleString()} records</span>
                   <span>•</span>
