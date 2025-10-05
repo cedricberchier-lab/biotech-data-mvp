@@ -6,8 +6,9 @@ import ProcessNetworkView from './ProcessNetworkView';
 import MaterialNetworkView from './MaterialNetworkView';
 import KnowledgeQueryView from './KnowledgeQueryView';
 import DynamicGraphVisualization from './DynamicGraphVisualization';
+import ProcessFlowDiagram from './ProcessFlowDiagram';
 
-type GraphSection = 'visualization' | 'queries' | 'equipment' | 'process' | 'material';
+type GraphSection = 'visualization' | 'flowchart' | 'queries' | 'equipment' | 'process' | 'material';
 
 export default function KnowledgeGraphViewer() {
   const [activeSection, setActiveSection] = useState<GraphSection>('visualization');
@@ -17,7 +18,13 @@ export default function KnowledgeGraphViewer() {
       id: 'visualization',
       label: 'Graph Visualization',
       icon: '🔗',
-      description: 'Interactive network diagram with physics simulation',
+      description: 'Interactive network diagram with material flow backbone',
+    },
+    {
+      id: 'flowchart',
+      label: 'Process Flowchart',
+      icon: '📊',
+      description: 'Mermaid diagram: Upstream → Downstream → Drug Substance',
     },
     {
       id: 'queries',
@@ -59,7 +66,7 @@ export default function KnowledgeGraphViewer() {
 
       {/* Section Navigation */}
       <div className="bg-white border border-gray-200 rounded-lg p-2">
-        <div className="grid grid-cols-5 gap-2">
+        <div className="grid grid-cols-6 gap-2">
           {sections.map(section => (
             <button
               key={section.id}
@@ -83,6 +90,7 @@ export default function KnowledgeGraphViewer() {
       {/* Section Content */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 min-h-[600px]">
         {activeSection === 'visualization' && <DynamicGraphVisualization />}
+        {activeSection === 'flowchart' && <ProcessFlowDiagram />}
         {activeSection === 'queries' && <KnowledgeQueryView />}
         {activeSection === 'equipment' && <EquipmentNetworkView />}
         {activeSection === 'process' && <ProcessNetworkView />}
