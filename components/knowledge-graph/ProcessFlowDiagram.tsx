@@ -36,12 +36,12 @@ export default function ProcessFlowDiagram() {
   subgraph UPSTREAM
     direction LR
     CHO[CHO Medium]:::mat
-    Prep[Preparation]:::proc
     Seed[Seed Culture]:::proc
+    Prep[Preparation]:::proc
     BR[BR-2001-A Bioreactor]:::equip
     Fed[Fed-Batch Culture]:::proc
-    HCCF[Harvested HCCF]:::mat
     Harv[Harvest]:::proc
+    HCCF[Harvested HCCF]:::mat
 
     CHO --> Seed --> Prep --> BR --> Fed --> Harv --> HCCF
   end
@@ -49,11 +49,11 @@ export default function ProcessFlowDiagram() {
   %% Downstream
   subgraph DOWNSTREAM
     direction LR
-    ProtA[Protein A Capture]:::proc
     CHR[CHR-A-01 Column]:::equip
+    ProtA[Protein A Capture]:::proc
     Pool[Purified mAb Pool]:::mat
 
-    HCCF --> ProtA --> CHR --> Pool
+    HCCF --> CHR --> ProtA --> Pool
   end
 
   %% Drug Substance
