@@ -9,10 +9,12 @@ import KnowledgeGraphViewer from '@/components/knowledge-graph/KnowledgeGraphVie
 import { getSampleBatchData } from '@/lib/generators/batch-data';
 import { getDCSSample } from '@/lib/generators/dcs-generator';
 
-type ViewMode = 'raw' | 'structured' | 'knowledge';
+type MainPhase = 'ideation' | 'mvp';
+type IdeationPhase = 'phase1' | 'phase2' | 'phase3';
 
 export default function Home() {
-  const [viewMode, setViewMode] = useState<ViewMode>('raw');
+  const [mainPhase, setMainPhase] = useState<MainPhase>('ideation');
+  const [ideationPhase, setIdeationPhase] = useState<IdeationPhase>('phase1');
   const [selectedExport, setSelectedExport] = useState<string | null>(null);
   const [selectedSystem, setSelectedSystem] = useState<'DCS' | 'eBR' | 'LIMS' | null>(null);
 
@@ -23,7 +25,6 @@ export default function Home() {
   const getExportData = (exportId: string, system: string) => {
     switch (exportId) {
       case 'dcs-001':
-        // Return first 500 DCS points for display
         return getDCSSample(batchData.dcs, 500);
       case 'ebr-001':
         return batchData.ebr;
@@ -58,72 +59,52 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      <header className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                Manufacturing Data Integration Platform
+                BioTech Data Integration Platform
               </h1>
               <p className="mt-2 text-sm text-gray-600">
-                Batch {batchData.batchId} - mAb Production Process
+                mAb Manufacturing Intelligence System
               </p>
             </div>
 
-            {/* View Mode Toggle */}
-            <div className="flex gap-2">
+            {/* Main Phase Toggle */}
+            <div className="flex gap-3">
               <button
-                onClick={() => {
-                  setViewMode('raw');
-                  setSelectedExport(null);
-                }}
-                className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                  viewMode === 'raw'
-                    ? 'bg-red-600 text-white shadow-lg'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                onClick={() => setMainPhase('ideation')}
+                className={`px-8 py-4 rounded-xl font-bold transition-all transform ${
+                  mainPhase === 'ideation'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-xl scale-105'
+                    : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-purple-400'
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  <span>📁</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">💡</span>
                   <div className="text-left">
-                    <div className="text-sm font-bold">PHASE 1</div>
-                    <div className="text-xs">Raw Data</div>
+                    <div className="text-lg">IDEATION</div>
+                    <div className="text-xs opacity-80">Concept & Prototypes</div>
                   </div>
                 </div>
               </button>
 
               <button
-                onClick={() => setViewMode('structured')}
-                className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                  viewMode === 'structured'
-                    ? 'bg-green-600 text-white shadow-lg'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                onClick={() => setMainPhase('mvp')}
+                className={`px-8 py-4 rounded-xl font-bold transition-all transform ${
+                  mainPhase === 'mvp'
+                    ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white shadow-xl scale-105'
+                    : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-green-400'
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  <span>✨</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">🚀</span>
                   <div className="text-left">
-                    <div className="text-sm font-bold">PHASE 2</div>
-                    <div className="text-xs">Structured Data</div>
-                  </div>
-                </div>
-              </button>
-
-              <button
-                onClick={() => setViewMode('knowledge')}
-                className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                  viewMode === 'knowledge'
-                    ? 'bg-purple-600 text-white shadow-lg'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <span>🔗</span>
-                  <div className="text-left">
-                    <div className="text-sm font-bold">PHASE 3</div>
-                    <div className="text-xs">Knowledge Graph</div>
+                    <div className="text-lg">MVP</div>
+                    <div className="text-xs opacity-80">Production Ready</div>
                   </div>
                 </div>
               </button>
@@ -134,102 +115,121 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {viewMode === 'knowledge' ? (
-          <KnowledgeGraphViewer />
-        ) : viewMode === 'structured' ? (
-          <StructuredDataViewer
-            batchId={batchData.batchId}
-            batchStartTime={batchData.startDate}
-          />
-        ) : selectedExport && selectedSystem ? (
-          <div>
-            <button
-              onClick={handleBack}
-              className="mb-6 flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Back to exports
-            </button>
-            <RawDataDisplay
-              system={selectedSystem}
-              data={getExportData(selectedExport, selectedSystem)}
-              format={selectedSystem === 'eBR' ? 'XML' : 'CSV'}
-            />
+        {mainPhase === 'ideation' ? (
+          <div className="space-y-6">
+            {/* Ideation Phase Navigation */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-purple-200">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                💡 Ideation Phase - Concept Exploration
+              </h2>
+              <div className="grid grid-cols-3 gap-4">
+                <button
+                  onClick={() => {
+                    setIdeationPhase('phase1');
+                    setSelectedExport(null);
+                  }}
+                  className={`p-6 rounded-xl font-medium transition-all ${
+                    ideationPhase === 'phase1'
+                      ? 'bg-gradient-to-br from-red-500 to-orange-500 text-white shadow-lg'
+                      : 'bg-gray-50 text-gray-700 border-2 border-gray-200 hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">📁</span>
+                    <div className="text-left">
+                      <div className="text-sm font-bold">PHASE 1</div>
+                      <div className="text-xs opacity-90">Raw Data Extraction</div>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setIdeationPhase('phase2')}
+                  className={`p-6 rounded-xl font-medium transition-all ${
+                    ideationPhase === 'phase2'
+                      ? 'bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg'
+                      : 'bg-gray-50 text-gray-700 border-2 border-gray-200 hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">🏗️</span>
+                    <div className="text-left">
+                      <div className="text-sm font-bold">PHASE 2</div>
+                      <div className="text-xs opacity-90">Structured Data</div>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setIdeationPhase('phase3')}
+                  className={`p-6 rounded-xl font-medium transition-all ${
+                    ideationPhase === 'phase3'
+                      ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg'
+                      : 'bg-gray-50 text-gray-700 border-2 border-gray-200 hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">🔗</span>
+                    <div className="text-left">
+                      <div className="text-sm font-bold">PHASE 3</div>
+                      <div className="text-xs opacity-90">Knowledge Graph</div>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* Ideation Content */}
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              {ideationPhase === 'phase1' && (
+                <>
+                  {!selectedExport ? (
+                    <DataExportViewer onSelectExport={handleSelectExport} />
+                  ) : (
+                    <RawDataDisplay
+                      data={getExportData(selectedExport, selectedSystem || '')}
+                      system={selectedSystem || 'DCS'}
+                      onBack={handleBack}
+                    />
+                  )}
+                </>
+              )}
+
+              {ideationPhase === 'phase2' && <StructuredDataViewer />}
+
+              {ideationPhase === 'phase3' && <KnowledgeGraphViewer />}
+            </div>
           </div>
         ) : (
-          <div>
-            {/* Info Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                <h3 className="font-semibold text-blue-900 mb-2">DCS (Distributed Control System)</h3>
-                <p className="text-sm text-gray-700">
-                  Time-series process data with cryptic tag names, 30-second intervals, no batch context
+          /* MVP Phase */
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl shadow-lg p-12 border-2 border-green-200">
+              <div className="text-center">
+                <div className="text-6xl mb-6">🚀</div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  MVP Phase - Coming Soon
+                </h2>
+                <p className="text-lg text-gray-600 mb-8">
+                  Production-ready features are under development
                 </p>
-                <div className="mt-3 text-xs text-blue-800 font-mono">
-                  ~276,000 records
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                  <div className="p-6 bg-green-50 rounded-xl border border-green-200">
+                    <div className="text-3xl mb-3">📊</div>
+                    <h3 className="font-bold text-gray-900 mb-2">Real-Time Dashboard</h3>
+                    <p className="text-sm text-gray-600">Live process monitoring and alerts</p>
+                  </div>
+                  <div className="p-6 bg-blue-50 rounded-xl border border-blue-200">
+                    <div className="text-3xl mb-3">🤖</div>
+                    <h3 className="font-bold text-gray-900 mb-2">AI Insights</h3>
+                    <p className="text-sm text-gray-600">Predictive analytics and optimization</p>
+                  </div>
+                  <div className="p-6 bg-purple-50 rounded-xl border border-purple-200">
+                    <div className="text-3xl mb-3">🔌</div>
+                    <h3 className="font-bold text-gray-900 mb-2">System Integration</h3>
+                    <p className="text-sm text-gray-600">Direct API connections to DCS/eBR/LIMS</p>
+                  </div>
                 </div>
               </div>
-
-              <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-                <h3 className="font-semibold text-green-900 mb-2">eBR (Electronic Batch Record)</h3>
-                <p className="text-sm text-gray-700">
-                  Structured manufacturing execution data with phases, parameters, and operator entries
-                </p>
-                <div className="mt-3 text-xs text-green-800 font-mono">
-                  6 phases, 847 entries
-                </div>
-              </div>
-
-              <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
-                <h3 className="font-semibold text-purple-900 mb-2">LIMS (Lab Information System)</h3>
-                <p className="text-sm text-gray-700">
-                  Lab results with different naming conventions, mismatched location codes, delayed timestamps
-                </p>
-                <div className="mt-3 text-xs text-purple-800 font-mono">
-                  3 result tables
-                </div>
-              </div>
-            </div>
-
-            {/* Key Challenges */}
-            <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-6 mb-8">
-              <h3 className="font-semibold text-yellow-900 mb-3 flex items-center gap-2">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                </svg>
-                Key Data Integration Challenges
-              </h3>
-              <ul className="text-sm text-gray-800 space-y-2">
-                <li className="flex items-start gap-2">
-                  <span className="text-yellow-600">•</span>
-                  <span><strong>No common identifiers:</strong> DCS uses tag names (BR001_PV_TEMP), eBR uses equipment IDs (BR-2001-A), LIMS uses location codes (LOC-B7-R2001)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-yellow-600">•</span>
-                  <span><strong>Time misalignment:</strong> DCS is real-time, LIMS results delayed by hours/days from sample collection</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-yellow-600">•</span>
-                  <span><strong>Different granularity:</strong> DCS has 276k records at 30-sec intervals, eBR has 6 phases, LIMS has 42 test results</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-yellow-600">•</span>
-                  <span><strong>Inconsistent naming:</strong> Parameter names vary by site, vendor, and system (pH vs PH_AI_2001 vs METAB-GLU)</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Export Files */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                System Export Files
-              </h2>
-              <p className="text-sm text-gray-600 mb-6">
-                Click on any export file to view its raw structure and data
-              </p>
-              <DataExportViewer onSelectExport={handleSelectExport} />
             </div>
           </div>
         )}
