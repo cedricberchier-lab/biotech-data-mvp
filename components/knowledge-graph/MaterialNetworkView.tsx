@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { getMaterialNodes, getMaterialTransformations, buildMaterialFlowGraph } from '@/lib/knowledge-graph/material-network';

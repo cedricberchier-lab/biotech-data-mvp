@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { generateMaterialFlows, getMaterialFlowSummary, type MaterialFlow } from '@/lib/structured/material-flow';

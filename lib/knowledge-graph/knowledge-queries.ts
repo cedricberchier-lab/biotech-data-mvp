@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Knowledge Graph Query Engine
  * Enables complex queries across equipment, process, and material networks

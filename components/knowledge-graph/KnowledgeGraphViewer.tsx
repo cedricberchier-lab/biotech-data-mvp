@@ -5,13 +5,20 @@ import EquipmentNetworkView from './EquipmentNetworkView';
 import ProcessNetworkView from './ProcessNetworkView';
 import MaterialNetworkView from './MaterialNetworkView';
 import KnowledgeQueryView from './KnowledgeQueryView';
+import DynamicGraphVisualization from './DynamicGraphVisualization';
 
-type GraphSection = 'equipment' | 'process' | 'material' | 'queries';
+type GraphSection = 'visualization' | 'queries' | 'equipment' | 'process' | 'material';
 
 export default function KnowledgeGraphViewer() {
-  const [activeSection, setActiveSection] = useState<GraphSection>('queries');
+  const [activeSection, setActiveSection] = useState<GraphSection>('visualization');
 
   const sections: { id: GraphSection; label: string; icon: string; description: string }[] = [
+    {
+      id: 'visualization',
+      label: 'Graph Visualization',
+      icon: '🔗',
+      description: 'Interactive network diagram with physics simulation',
+    },
     {
       id: 'queries',
       label: 'Knowledge Queries',
@@ -52,7 +59,7 @@ export default function KnowledgeGraphViewer() {
 
       {/* Section Navigation */}
       <div className="bg-white border border-gray-200 rounded-lg p-2">
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-5 gap-2">
           {sections.map(section => (
             <button
               key={section.id}
@@ -75,6 +82,7 @@ export default function KnowledgeGraphViewer() {
 
       {/* Section Content */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 min-h-[600px]">
+        {activeSection === 'visualization' && <DynamicGraphVisualization />}
         {activeSection === 'queries' && <KnowledgeQueryView />}
         {activeSection === 'equipment' && <EquipmentNetworkView />}
         {activeSection === 'process' && <ProcessNetworkView />}

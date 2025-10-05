@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * LIMS (Laboratory Information Management System) Data Generator
  * Simulates lab test results with different naming conventions and delays

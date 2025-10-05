@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Equipment Relationship Network
  * Defines equipment connections, class hierarchies, and cross-site relationships

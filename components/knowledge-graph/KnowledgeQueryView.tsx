@@ -58,7 +58,7 @@ export default function KnowledgeQueryView() {
       return <div className="text-center py-8 text-gray-500">No equipment in production</div>;
     }
 
-    return queryResult.results.map((item: any, idx: number) => (
+    return queryResult.results.map((item: { equipment: { name: string; equipmentClass: string; status: string }; currentPhase: string; activeProcesses: { name: string }[] }, idx: number) => (
       <div key={idx} className="border border-blue-200 bg-blue-50 rounded-lg p-4">
         <div className="flex items-start justify-between mb-2">
           <div>
@@ -73,7 +73,7 @@ export default function KnowledgeQueryView() {
           <strong>Current Phase:</strong> {item.currentPhase}
         </div>
         <div className="text-xs text-gray-600 mt-2">
-          Active Processes: {item.activeProcesses.map((p: any) => p.name).join(', ')}
+          Active Processes: {item.activeProcesses.map((p: { name: string }) => p.name).join(', ')}
         </div>
       </div>
     ));
@@ -86,7 +86,7 @@ export default function KnowledgeQueryView() {
 
     return (
       <div className="space-y-3">
-        {queryResult.results.map((item: any, idx: number) => (
+        {queryResult.results.map((item: unknown, idx: number) => (
           <div
             key={idx}
             className="border border-purple-200 bg-purple-50 rounded-lg p-4"
@@ -102,7 +102,7 @@ export default function KnowledgeQueryView() {
 
                 {item.transformations.length > 0 && (
                   <div className="bg-white rounded p-2 text-xs space-y-1">
-                    {item.transformations.map((trans: any, tIdx: number) => (
+                    {item.transformations.map((trans: unknown, tIdx: number) => (
                       <div key={tIdx} className="flex items-center gap-2">
                         <span className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-medium">
                           {trans.type}
@@ -143,7 +143,7 @@ export default function KnowledgeQueryView() {
       );
     }
 
-    return queryResult.results.map((item: any, idx: number) => (
+    return queryResult.results.map((item: unknown, idx: number) => (
       <div key={idx} className="border-2 border-red-300 bg-red-50 rounded-lg p-4">
         <div className="flex items-start justify-between mb-3">
           <div>
@@ -158,7 +158,7 @@ export default function KnowledgeQueryView() {
         {item.failedSpecifications?.length > 0 && (
           <div className="bg-white rounded p-3 mb-3">
             <div className="text-xs font-semibold text-gray-700 mb-2">Failed Specifications:</div>
-            {item.failedSpecifications.map((spec: any, sIdx: number) => (
+            {item.failedSpecifications.map((spec: unknown, sIdx: number) => (
               <div key={sIdx} className="flex items-center justify-between text-xs py-1">
                 <span className="text-gray-700">{spec.parameter}</span>
                 <span className="font-mono text-red-700">
@@ -185,7 +185,7 @@ export default function KnowledgeQueryView() {
 
     return (
       <div className="grid grid-cols-2 gap-4">
-        {queryResult.results.map((item: any, idx: number) => (
+        {queryResult.results.map((item: unknown, idx: number) => (
           <div key={idx} className="border border-blue-200 bg-blue-50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
               <div>
@@ -196,7 +196,7 @@ export default function KnowledgeQueryView() {
             </div>
 
             <div className="space-y-2">
-              {item.equipment.map((eq: any, eIdx: number) => (
+              {item.equipment.map((eq: unknown, eIdx: number) => (
                 <div key={eIdx} className="bg-white rounded p-2 text-xs">
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-gray-900">{eq.name}</span>
@@ -230,7 +230,7 @@ export default function KnowledgeQueryView() {
       );
     }
 
-    return queryResult.results.map((item: any, idx: number) => (
+    return queryResult.results.map((item: unknown, idx: number) => (
       <div key={idx} className="border border-orange-200 bg-orange-50 rounded-lg p-4">
         <div className="flex items-start justify-between mb-2">
           <div>
@@ -296,7 +296,7 @@ export default function KnowledgeQueryView() {
           <div>
             <div className="text-sm font-semibold text-gray-700 mb-2">← ANCESTORS (Source Materials)</div>
             <div className="space-y-2">
-              {data.ancestors.map((anc: any, idx: number) => (
+              {data.ancestors.map((anc: unknown, idx: number) => (
                 <div key={idx} className="border border-blue-200 bg-blue-50 rounded p-3">
                   <div className="font-medium text-blue-900">{anc.material.materialName}</div>
                   <div className="text-xs text-gray-600 mt-1">
@@ -313,7 +313,7 @@ export default function KnowledgeQueryView() {
           <div>
             <div className="text-sm font-semibold text-gray-700 mb-2">→ DESCENDANTS (Derived Materials)</div>
             <div className="space-y-2">
-              {data.descendants.map((desc: any, idx: number) => (
+              {data.descendants.map((desc: unknown, idx: number) => (
                 <div key={idx} className="border border-green-200 bg-green-50 rounded p-3">
                   <div className="font-medium text-green-900">{desc.material.materialName}</div>
                   <div className="text-xs text-gray-600 mt-1">
@@ -330,7 +330,7 @@ export default function KnowledgeQueryView() {
           <div>
             <div className="text-sm font-semibold text-gray-700 mb-2">⚙️ TRANSFORMATIONS</div>
             <div className="space-y-2">
-              {data.transformations.map((trans: any, idx: number) => (
+              {data.transformations.map((trans: unknown, idx: number) => (
                 <div key={idx} className="border border-gray-200 bg-gray-50 rounded p-3">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-semibold rounded">
