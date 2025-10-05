@@ -6,6 +6,7 @@ import DataExportViewer from '@/components/raw-data/DataExportViewer';
 import RawDataDisplay from '@/components/raw-data/RawDataDisplay';
 import StructuredDataViewer from '@/components/structured/StructuredDataViewer';
 import KnowledgeGraphViewer from '@/components/knowledge-graph/KnowledgeGraphViewer';
+import LiveDataDashboard from '@/components/mvp/LiveDataDashboard';
 import { getSampleBatchData } from '@/lib/generators/batch-data';
 import { getDCSSample } from '@/lib/generators/dcs-generator';
 
@@ -201,35 +202,10 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          /* MVP Phase */
+          /* MVP Phase - Live Data Dashboard */
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl shadow-lg p-12 border-2 border-green-200">
-              <div className="text-center">
-                <div className="text-6xl mb-6">🚀</div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  MVP Phase - Coming Soon
-                </h2>
-                <p className="text-lg text-gray-600 mb-8">
-                  Production-ready features are under development
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                  <div className="p-6 bg-green-50 rounded-xl border border-green-200">
-                    <div className="text-3xl mb-3">📊</div>
-                    <h3 className="font-bold text-gray-900 mb-2">Real-Time Dashboard</h3>
-                    <p className="text-sm text-gray-600">Live process monitoring and alerts</p>
-                  </div>
-                  <div className="p-6 bg-blue-50 rounded-xl border border-blue-200">
-                    <div className="text-3xl mb-3">🤖</div>
-                    <h3 className="font-bold text-gray-900 mb-2">AI Insights</h3>
-                    <p className="text-sm text-gray-600">Predictive analytics and optimization</p>
-                  </div>
-                  <div className="p-6 bg-purple-50 rounded-xl border border-purple-200">
-                    <div className="text-3xl mb-3">🔌</div>
-                    <h3 className="font-bold text-gray-900 mb-2">System Integration</h3>
-                    <p className="text-sm text-gray-600">Direct API connections to DCS/eBR/LIMS</p>
-                  </div>
-                </div>
-              </div>
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <LiveDataDashboard />
             </div>
           </div>
         )}
